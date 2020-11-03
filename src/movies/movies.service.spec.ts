@@ -33,9 +33,6 @@ describe('MoviesService', () => {
       });
       const movie = service.getOne(1);
       expect(movie).toBeDefined();
-      expect(movie.id).toEqual(1);
-      expect(movie.title).toEqual('TestMovie');
-      expect(movie.year).toEqual(2000);
     });
 
     it('should throw 404 error', () => {
@@ -67,6 +64,22 @@ describe('MoviesService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
+    });
+  });
+
+  describe('createOne()', () => {
+    it('create a movie', () => {
+      expect(service.getAll().length).toEqual(0);
+      service.createOne({
+        title: 'TestMovie',
+        genres: ['test'],
+        year: 2000,
+      });
+      expect(service.getAll().length).toEqual(1);
+      const movie = service.getOne(1);
+      expect(movie.id).toEqual(1);
+      expect(movie.title).toEqual('TestMovie');
+      expect(movie.year).toEqual(2000);
     });
   });
 });
