@@ -47,4 +47,26 @@ describe('MoviesService', () => {
       }
     });
   });
+
+  describe('deleteOne()', () => {
+    it('deletes a movie', () => {
+      service.createOne({
+        title: 'TestMovie',
+        genres: ['test'],
+        year: 2000,
+      });
+      const beforeDelete = service.getAll().length;
+      service.deleteOne(1);
+      const afterDelete = service.getAll().length;
+      expect(afterDelete).toBeLessThan(beforeDelete);
+    });
+
+    it('should return 404 error', () => {
+      try {
+        service.deleteOne(88);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
 });
