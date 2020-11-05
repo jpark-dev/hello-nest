@@ -44,5 +44,10 @@ describe('AppController (e2e)', () => {
         .delete('/movies')
         .expect(404);
     });
+    describe('/movies/:id', () => {
+      it.todo('GET');
+      it.todo('DELETE');
+      it.todo('PATCH');
+    });
   });
 });
