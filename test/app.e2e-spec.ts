@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, MethodNotAllowedException } from '@nestjs/common';
+import {
+  INestApplication,
+  MethodNotAllowedException,
+  ValidationPipe,
+} from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
@@ -12,6 +16,15 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+
+    // in testing, same setting as real application must be set: ValidationPipe was auto-transforming 'id' to number. However, without giving the same configuration, e2e test will think 'id' is string, a part of the origianl string ~/movies/1'
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    );
     await app.init();
   });
 
@@ -45,9 +58,11 @@ describe('AppController (e2e)', () => {
         .expect(404);
     });
     describe('/movies/:id', () => {
-      it.todo('GET');
-      it.todo('DELETE');
-      it.todo('PATCH');
+      it('GET 200', () => {
+        return request(app.getHttpServer())
+          .get('/movies/1')
+          .expect(200);
+      });
     });
   });
 });
