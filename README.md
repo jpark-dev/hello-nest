@@ -11,6 +11,15 @@ Conducted simple unit and e2e testing using Nest Test.
 $ npm install
 ```
 
+# Dependencies
+- NodeJS
+- JavaScript
+- TypeScript
+- GraphQL
+- NestJS
+- RESTful API communication with NoSQL API
+- Nest Test
+
 ## Running the app
 
 ```bash
